@@ -23,3 +23,8 @@
 .image-thumbnails img:hover {
   border: thick solid black;
 }
+
+img.resize {
+  width:250px;
+  height:290px;
+}
