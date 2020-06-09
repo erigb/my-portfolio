@@ -7,3 +7,12 @@
 #greeting-container {
   margin-top: 20px;
 }
+
+#info-container {
+  margin-top: 20px;
+}
+
+img.resize {
+  width:250px;
+  height:290px;
+}
