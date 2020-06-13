@@ -29,7 +29,21 @@ function addRandomGreeting() {
 
 
 function getDataServer()  {
-    fetch('/data').then(response => response.text()).then((quote) => {
-        document.getElementById('data-container').innerText = quote;
-    });
+    fetch('/data').then(response => response.json()).then((quote) => {
+
+    const statsListElement = document.getElementById('data-container');
+    statsListElement.innerHTML = '';
+    statsListElement.appendChild(
+        createListElement('Name: ' + quote.name));
+    statsListElement.appendChild(
+        createListElement('Location: ' + quote.location));
+    statsListElement.appendChild(
+        createListElement('Date of Birth: ' + quote.dateOfBirth));
+  });
 }
+
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}    

@@ -19,14 +19,45 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+    private ArrayList<String> myData;
+
+  @Override
+  public void init() {
+    myData = new ArrayList<>();
+    myData.add("Ethan Rigby");
+    myData.add("London, Ontario");
+    myData.add("September 17, 1999");
+
+  }
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println("Hello Ethan!");
+
+    String json = convertToJson(myData);
+    response.setContentType("application/json;");
+    response.getWriter().println(json);
+  }
+
+   /**
+   * Converts a ServerStats instance into a JSON string using manual String concatentation.
+   */
+  private String convertToJson(ArrayList<String> myData) {
+    String json = "{";
+    json += "\"name\": ";
+    json += "\"" + myData.get(0) + "\"";
+    json += ", ";
+    json += "\"location\": ";
+    json += "\"" + myData.get(1) + "\"";
+    json += ", ";
+    json += "\"dateOfBirth\": ";
+    json += "\"" + myData.get(2) + "\"";
+    json += "}";
+     return json;
   }
 }
