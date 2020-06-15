@@ -59,7 +59,6 @@ public class DataServlet extends HttpServlet {
         myData.addLocation(location);
         myData.addComment(comment);
     }
-
     response.setContentType("application/json");
     String json = new Gson().toJson(myData);
     response.getWriter().println(json);
@@ -83,28 +82,7 @@ public class DataServlet extends HttpServlet {
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
       datastore.put(taskEntity);
 
-      response.sendRedirect("/index.html");  //Change this when using actual clinet/server
-  }
-
-   /**
-   * Converts a ServerStats instance into a JSON string using manual String concatentation.
-   * This is not used anymore since I switched to Gson. Should I delete it?
-   */
-  private String convertToJson(ArrayList<String> myData) {
-
-    String json = "[";
-    json += "{";
-    json += "\"name\": ";
-    json += "\"" + myData.get(0) + "\"";
-    json += ", ";
-    json += "\"location\": ";
-    json += "\"" + myData.get(1) + "\"";
-    json += ", ";
-    json += "\"comment\": ";
-    json += "\"" + myData.get(2) + "\"";
-    json += "}";
-    json += "]";
-     return json;
+      response.sendRedirect("/index.html");
   }
 
    /**
