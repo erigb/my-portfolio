@@ -29,7 +29,26 @@ function addRandomGreeting() {
 
 
 function getDataServer()  {
-    fetch('/data').then(response => response.text()).then((quote) => {
-        document.getElementById('data-container').innerText = quote;
-    });
+    fetch('/data').then(response => response.json()).then((quote) => {
+
+    const statsListElement = document.getElementById('data-container');
+    statsListElement.innerHTML = '';
+    var i = 0;
+    while (quote.name[i] != null)  {
+        statsListElement.appendChild(
+            createListElement('Name: ' + quote.name[i]));
+        statsListElement.appendChild(
+            createListElement('Location: ' + quote.location[i]));
+        statsListElement.appendChild(
+            createListElement('Comment: ' + quote.comment[i]));
+        statsListElement.appendChild(createListElement(" "));
+        i ++;
+    }
+  });
 }
+
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}    
