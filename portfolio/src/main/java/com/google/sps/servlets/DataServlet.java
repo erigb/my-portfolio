@@ -30,9 +30,9 @@ public class DataServlet extends HttpServlet {
   @Override
   public void init() {
     myData = new ArrayList<>();
-    myData.add("Ethan Rigby");
-    myData.add("London, Ontario");
-    myData.add("September 17, 1999");
+    // myData.add("Ethan Rigby");
+    // myData.add("London, Ontario");
+    // myData.add("September 17, 1999");
 
   }
 
@@ -42,6 +42,19 @@ public class DataServlet extends HttpServlet {
     String json = convertToJson(myData);
     response.setContentType("application/json;");
     response.getWriter().println(json);
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+      String name = getParameter(request, "name-area", "");
+      String location = getParameter(request, "location-area", "");
+      String comment = getParameter(request, "comment-area", "");
+
+      myData.add(name);
+      myData.add(location);
+      myData.add(comment);
+
+      response.sendRedirect("https://8080-dot-12501279-dot-devshell.appspot.com/?authuser=0");  //Change this when using actual clinet/server
   }
 
    /**
@@ -55,9 +68,21 @@ public class DataServlet extends HttpServlet {
     json += "\"location\": ";
     json += "\"" + myData.get(1) + "\"";
     json += ", ";
-    json += "\"dateOfBirth\": ";
+    json += "\"comment\": ";
     json += "\"" + myData.get(2) + "\"";
     json += "}";
      return json;
+  }
+
+   /**
+   * @return the request parameter, or the default value if the parameter
+   *         was not specified by the client
+   */
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
   }
 }

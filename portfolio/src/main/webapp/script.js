@@ -38,7 +38,7 @@ function getDataServer()  {
     statsListElement.appendChild(
         createListElement('Location: ' + quote.location));
     statsListElement.appendChild(
-        createListElement('Date of Birth: ' + quote.dateOfBirth));
+        createListElement('Comment: ' + quote.comment));
   });
 }
 
