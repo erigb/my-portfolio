@@ -1,4 +1,6 @@
-
+/*
+*This class is in charge of each comment object.
+*/
 package com.google.sps.data;
 import java.util.ArrayList;
 import java.util.List;

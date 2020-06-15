@@ -44,7 +44,6 @@ function getDataServer()  {
         statsListElement.appendChild(createListElement(" "));
         i ++;
     }
-        //Figure out how to make this a loop.
   });
 }
 

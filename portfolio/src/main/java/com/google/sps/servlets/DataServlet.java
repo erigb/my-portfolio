@@ -14,6 +14,12 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import java.io.IOException;
 import com.google.sps.data.Comment;
 import javax.servlet.annotation.WebServlet;
@@ -37,10 +43,22 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    myData = new Comment();
+    //Sets up datastore output.
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
 
-    // String json = convertToJson(myData);
-    // response.setContentType("application/json;");
-    // response.getWriter().println(json);
+    //Adds each comment on the database to the client.
+    for (Entity entity : results.asIterable()) {
+        String name = (String) entity.getProperty("name");
+        String location = (String) entity.getProperty("location");
+        String comment = (String) entity.getProperty("comment");
+
+        myData.addName(name);
+        myData.addLocation(location);
+        myData.addComment(comment);
+    }
 
     response.setContentType("application/json");
     String json = new Gson().toJson(myData);
@@ -49,19 +67,28 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+      //Gets comment from client.
       String name = getParameter(request, "name-area", "");
       String location = getParameter(request, "location-area", "");
       String comment = getParameter(request, "comment-area", "");
+      long timestamp = System.currentTimeMillis();
+      
+      //Sets up datastore.
+      Entity taskEntity = new Entity("Comment");
+      taskEntity.setProperty("name", name);
+      taskEntity.setProperty("location", location);
+      taskEntity.setProperty("comment", comment);
+      taskEntity.setProperty("timestamp", timestamp);
 
-      myData.addName(name);
-      myData.addLocation(location);
-      myData.addComment(comment);
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      datastore.put(taskEntity);
 
       response.sendRedirect("/index.html");  //Change this when using actual clinet/server
   }
 
    /**
    * Converts a ServerStats instance into a JSON string using manual String concatentation.
+   * This is not used anymore since I switched to Gson. Should I delete it?
    */
   private String convertToJson(ArrayList<String> myData) {
 
