@@ -30,9 +30,6 @@ public class DataServlet extends HttpServlet {
   @Override
   public void init() {
     myData = new ArrayList<>();
-    // myData.add("Ethan Rigby");
-    // myData.add("London, Ontario");
-    // myData.add("September 17, 1999");
 
   }
 
