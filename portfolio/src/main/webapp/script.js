@@ -33,12 +33,18 @@ function getDataServer()  {
 
     const statsListElement = document.getElementById('data-container');
     statsListElement.innerHTML = '';
-    statsListElement.appendChild(
-        createListElement('Name: ' + quote.name));
-    statsListElement.appendChild(
-        createListElement('Location: ' + quote.location));
-    statsListElement.appendChild(
-        createListElement('Comment: ' + quote.comment));
+    var i = 0;
+    while (quote.name[i] != null)  {
+        statsListElement.appendChild(
+            createListElement('Name: ' + quote.name[i]));
+        statsListElement.appendChild(
+            createListElement('Location: ' + quote.location[i]));
+        statsListElement.appendChild(
+            createListElement('Date of Birth: ' + quote.comment[i]));
+        statsListElement.appendChild(createListElement(" "));
+        i ++;
+    }
+        //Figure out how to make this a loop.
   });
 }
 

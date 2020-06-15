@@ -15,29 +15,35 @@
 package com.google.sps.servlets;
 
 import java.io.IOException;
+import com.google.sps.data.Comment;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import com.google.gson.Gson;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-    private ArrayList<String> myData;
+    private Comment myData;
 
   @Override
   public void init() {
-    myData = new ArrayList<>();
+    myData = new Comment();
 
   }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    String json = convertToJson(myData);
-    response.setContentType("application/json;");
+    // String json = convertToJson(myData);
+    // response.setContentType("application/json;");
+    // response.getWriter().println(json);
+
+    response.setContentType("application/json");
+    String json = new Gson().toJson(myData);
     response.getWriter().println(json);
   }
 
@@ -47,18 +53,20 @@ public class DataServlet extends HttpServlet {
       String location = getParameter(request, "location-area", "");
       String comment = getParameter(request, "comment-area", "");
 
-      myData.add(name);
-      myData.add(location);
-      myData.add(comment);
+      myData.addName(name);
+      myData.addLocation(location);
+      myData.addComment(comment);
 
-      response.sendRedirect("https://8080-dot-12501279-dot-devshell.appspot.com/?authuser=0");  //Change this when using actual clinet/server
+      response.sendRedirect("/index.html");  //Change this when using actual clinet/server
   }
 
    /**
    * Converts a ServerStats instance into a JSON string using manual String concatentation.
    */
   private String convertToJson(ArrayList<String> myData) {
-    String json = "{";
+
+    String json = "[";
+    json += "{";
     json += "\"name\": ";
     json += "\"" + myData.get(0) + "\"";
     json += ", ";
@@ -68,6 +76,7 @@ public class DataServlet extends HttpServlet {
     json += "\"comment\": ";
     json += "\"" + myData.get(2) + "\"";
     json += "}";
+    json += "]";
      return json;
   }
 
