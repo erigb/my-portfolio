@@ -40,7 +40,7 @@ function getDataServer()  {
         statsListElement.appendChild(
             createListElement('Location: ' + quote.location[i]));
         statsListElement.appendChild(
-            createListElement('Date of Birth: ' + quote.comment[i]));
+            createListElement('Comment: ' + quote.comment[i]));
         statsListElement.appendChild(createListElement(" "));
         i ++;
     }
